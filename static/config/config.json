@@ -1,0 +1,8 @@
+{
+  "Mode": 0,
+  "Resolution": "1920x1080",
+  "Pics": 64,
+  "FPS": 1,
+  "Turns": 1,
+  "TriggerGPIO": 10
+}

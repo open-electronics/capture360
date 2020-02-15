@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Foto360 Widget</title>
+    </head>
+    <body>
+        <div class="threesixty-wrapper">
+            <div class="threesixty" data-path="img/{index}.jpg" data-count = "CHANGE_THIS">
+            Carico foto...
+            </div>
+        </div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.threesixty.js"></script>
+        <script>
+            $(document).ready(function(){
+
+                var $threeSixty = $('.threesixty');
+
+                $threeSixty.threeSixty({
+                    dragDirection: 'horizontal',
+                    useKeys: true,
+                    draggable: true
+                });
+
+            });
+        </script>
+    </body>
+</html>

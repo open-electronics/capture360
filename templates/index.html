@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Capture360</title>
+		<link rel="icon" href="{{url_for('static',filename='img/favicon.ico')}}" type="image/x-icon" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="{{url_for('static',filename='css/materialize.min.css')}}"  media="screen,projection"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+	<body class = "grey lighten-5">
+		<div class="container">
+			<div class = "row">
+				<div class="red-text col s12 center-align">
+					<h4><b>Capture<i class="material-icons">autorenew</i>360</b></h4>
+				</div>
+			</div>
+            <div class = "row">
+                <div class="col s6">
+                    <div id="collections" class="row">
+                        <div class="col s10 offset-s1">
+                            <ul id="Shoots" class="collection with-header" style="height: 260px; max-height: 260px; overflow-y:scroll">
+
+                            </ul>	
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6" id = "PreviewBox">
+                    <img id="PreviewImage">
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col s4 grey-text">Trigger button setup:</div>
+                <div class="col s7 grey-text" id = "TriggerButtonParams"></div>
+                <div class="col s1"><a onclick="Trigger();" class="blue waves-effect waves-light btn-small"><i class="small material-icons">flash_on</i></a></div>
+            </div>
+			<div class = "row">
+				<ul class = "collapsible">
+					<li>
+						<div class="collapsible-header" id = "PhotoBox"><i class="material-icons">camera_alt</i>Photo</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s2">
+									<b>Resolution</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "PhotoResolution">
+										<option value="1920x1080">1920x1080 (16:9)</option>
+										<option value="2592x1944">2592x1944 (4:3)</option>
+										<option value="1296x972">1296x972 (4:3)</option>
+										<option value="1296x730">1296x730 (16:9)</option>
+										<option value="640x480">640x480 (4:3)</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s2">
+									<b>Shoots (one turn)</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "PhotoShoots">
+										<option value="64">64</option>
+										<option value="32">32</option>
+										<option value="16">16</option>
+										<option value="8">8</option>
+										<option value="4">4</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s6">
+									<a id="PhotoBtnStart" onclick="Start(0);" class="waves-effect waves-light btn">Start</a>
+									<a id="PhotoBtnStop" onclick="Stop(0);" class="waves-effect waves-light btn red">Stop</a>
+								</div>
+								<div class="col s6" align="right">
+									<a id = "PhotoBtnSetTrigger" onclick="SetTriggerButton(0);" class="blue waves-effect waves-light btn">Set trigger button</a>
+								</div>
+							</div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="progress">
+                                        <div id="PhotoProgress" class="determinate" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12" id="PhotoStatus"></div>
+                            </div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header" id = "GIFBox"><i class="material-icons">gif</i>GIF</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s2">
+									<b>Resolution</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "GIFResolution">
+										<option value="1920x1080">1920x1080 (16:9)</option>
+										<option value="2592x1944">2592x1944 (4:3)</option>
+										<option value="1296x972">1296x972 (4:3)</option>
+										<option value="1296x730">1296x730 (16:9)</option>
+										<option value="640x480">640x480 (4:3)</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s2">
+									<b>Shoots (one turn)</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "GIFShoots">
+										<option value="64">64</option>
+										<option value="32">32</option>
+										<option value="16">16</option>
+										<option value="8">8</option>
+										<option value="4">4</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s2">
+									<b>FPS</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "GIFFPS">
+										<option value="1">1</option>
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="25">25</option>
+										<option value="30">30</option>
+										<option value="35">35</option>
+										<option value="40">40</option>
+										<option value="45">45</option>
+										<option value="50">50</option>
+										<option value="55">55</option>
+										<option value="60">60</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s2">
+									<b>Number of turns</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "GIFTurns">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+										<option value="13">13</option>
+										<option value="14">14</option>
+										<option value="15">15</option>
+										<option value="16">16</option>
+										<option value="17">17</option>
+										<option value="18">18</option>
+										<option value="19">19</option>
+										<option value="20">20</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s6">
+									<a id="GIFBtnStart" onclick="Start(1);" class="waves-effect waves-light btn">Start</a>
+									<a id="GIFBtnStop" onclick="Stop(1);" class="waves-effect waves-light btn red">Stop</a>
+								</div>
+								<div class="col s6" align="right">
+									<a id = "GIFBtnSetTrigger" onclick="SetTriggerButton(1);" class="blue waves-effect waves-light btn">Set trigger button</a>
+								</div>
+							</div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="progress">
+                                        <div id="GIFProgress" class="determinate" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12" id="GIFStatus"></div>
+                            </div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header" id = "VideoBox"><i class="material-icons">videocam</i>Video</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s2">
+									<b>Resolution</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "VideoResolution">
+										<option value="1920x1080">1920x1080 (16:9)</option>
+										<option value="2592x1944">2592x1944 (4:3)</option>
+										<option value="1296x972">1296x972 (4:3)</option>
+										<option value="1296x730">1296x730 (16:9)</option>
+										<option value="640x480">640x480 (4:3)</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s2">
+									<b>FPS</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "VideoFPS">
+										<option value="1">1</option>
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="25">25</option>
+										<option value="30">30</option>
+										<option value="35">35</option>
+										<option value="40">40</option>
+										<option value="45">45</option>
+										<option value="50">50</option>
+										<option value="55">55</option>
+										<option value="60">60</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s2">
+									<b>Number of turns</b>
+								</div>
+								<div class="col s3">
+									<select class="browser-default" id = "VideoTurns">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+										<option value="13">13</option>
+										<option value="14">14</option>
+										<option value="15">15</option>
+										<option value="16">16</option>
+										<option value="17">17</option>
+										<option value="18">18</option>
+										<option value="19">19</option>
+										<option value="20">20</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s6">
+									<a id="VideoBtnStart" onclick="Start(2);" class="waves-effect waves-light btn">Start</a>
+									<a id="VideoBtnStop" onclick="Stop(2);" class="waves-effect waves-light btn red">Stop</a>
+								</div>
+								<div class="col s6" align="right">
+									<a id = "VideoBtnSetTrigger" onclick="SetTriggerButton(2);" class="blue waves-effect waves-light btn">Set trigger button</a>
+								</div>
+							</div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="progress">
+                                        <div id="VideoProgress" class="determinate" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12" id="VideoStatus"></div>
+                            </div>
+						</div>
+					</li>
+				</ul>
+			</div>
+            <div class = "row">
+                <div class="col s12" align="center">
+                    <a onclick="Shutdown();" class="red waves-effect waves-light btn">Shutdown</a>
+                </div>
+            </div>
+		</div>	
+		<script type="text/javascript" src="{{url_for('static',filename='js/jquery-3.4.1.min.js')}}"></script>
+		<script type="text/javascript" src="{{url_for('static',filename='js/materialize.min.js')}}"></script>
+		<script type="text/javascript" src="{{url_for('static',filename='js/foto360.js')}}"></script>
+	</body>
+</html>
