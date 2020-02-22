@@ -438,6 +438,22 @@ function ResetControls(m, finished = false) {
 }
 
 
+//  Delete all shootings
+function DeleteAll() {
+    
+	var r = confirm("Delete ALL shootings?");
+	if (r == true) {
+        $.ajax({
+            type: "POST",
+            url: "/delete_all",
+            cache: false,
+        }).done(function( data ) {
+            M.toast({html: "All shootings deleted."});
+        });
+	}
+    
+}
+
 
 //  Shutdown
 function Shutdown() {

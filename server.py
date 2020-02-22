@@ -135,7 +135,7 @@ def Shoot():
             if os.path.isdir("static/shoot/" + CurrentShoot):
                 os.system("sudo cp -R static/widget/ static/shoot/w_" + CurrentShoot)
                 os.system("sudo cp static/shoot/" + CurrentShoot + "/* static/shoot/w_" + CurrentShoot + "/img/")
-                os.system("sed -i 's/CHANGE_THIS/" + str(ShootSettings[3] * ShootSettings[1]) + "/g' static/shoot/w_" + CurrentShoot + "/index.html")
+                os.system("sudo sed -i 's/CHANGE_THIS/" + str(ShootSettings[3] * ShootSettings[1]) + "/g' static/shoot/w_" + CurrentShoot + "/index.html")
                 ZipDir("static/shoot/w_" + CurrentShoot, "static/shoot/" + CurrentShoot + ".zip")
                 os.system("sudo rm -R static/shoot/w_" + CurrentShoot)
         #   End: make GIF
@@ -211,6 +211,13 @@ def DeleteShoot(s = None):
     else:
         os.system("sudo rm -rf static/shoot/" + s)
         os.system("sudo rm static/shoot/" + s + ".zip")
+    return ""
+    
+    
+#   Delete all shootings
+@app.route("/delete_all", methods = ['POST'])
+def DeleteAll(s = None):
+    os.system("sudo rm -rf static/shoot/*")
     return ""
     
     
