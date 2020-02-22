@@ -256,11 +256,11 @@ def ZipDir(basedir, archivename):
 
                 
 #   Trigger button (physical)
-def TriggerButton():
+def TriggerButton(c):
     global Config, CurrentShoot
-    while True:
-        if GPIO.input(int(Config["TriggerGPIO"])) == GPIO.HIGH and CurrentShoot == None:
-            CreateShooting(Config["Mode"], Config["Resolution"], Config["Pics"], Config["FPS"], Config["Turns"])
+    if CurrentShoot == None:
+        CreateShooting(Config["Mode"], Config["Resolution"], Config["Pics"], Config["FPS"], Config["Turns"])
+        Shoot()
 
             
 #   Trigger button (web)
