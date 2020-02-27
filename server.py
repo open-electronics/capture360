@@ -105,6 +105,7 @@ def Shoot():
                         while not Done and CurrentShoot != None:
                             try:
                                 with picamera.PiCamera() as camera:
+									camera.rotation = 180
                                     camera.resolution = (int(ShootSettings[0].split("x")[0]), int(ShootSettings[0].split("x")[1]))
                                     time.sleep(1.5)
                                     camera.capture("static/shoot/" + CurrentShoot + "/" + str(Cont) + ".jpg")
@@ -120,6 +121,7 @@ def Shoot():
             while not Done and CurrentShoot != None:
                 try:
                     with picamera.PiCamera(framerate = ShootSettings[2]) as camera:
+						camera.rotation = 180
                         camera.resolution = (int(ShootSettings[0].split("x")[0]), int(ShootSettings[0].split("x")[1]))
                         camera.start_recording("static/shoot/" + CurrentShoot + "/video.h264")
                         for i in range(360 * ShootSettings[3]):
@@ -167,6 +169,7 @@ def Status():
     if CurrentShoot == None:
         try:
             with picamera.PiCamera() as camera:
+				camera.rotation = 180
                 camera.resolution = (640, 480)
                 Done = False
                 while not Done:
