@@ -215,8 +215,7 @@ function GetStatus() {
                 $("#VideoStatus").html("<i>" + data.ShootStatus + "</i>");
             break;
         }
-        //  Update trigger buttons
-        UpdateTriggerButtons(data.Config.Mode);
+        //  Update trigger button
         switch(data.Config.Mode) {
             case 0:
                 $("#TriggerButtonParams").html("photo, Resolution " + data.Config.Resolution + ", Shoots " + data.Config.Pics);
@@ -366,32 +365,7 @@ function SetTriggerButton(mode) {
 		cache: false
 	}).done(function( data ) {
         M.toast({html: data});
-        UpdateTriggerButtons(m);
 	});
-    
-}
-
-
-//  Update style of trigger buttons
-function UpdateTriggerButtons(m, text = "") {
-    
-    switch(m) {
-        case 0:
-            $("#PhotoBtnSetTrigger").addClass("disabled");
-            $("#GIFBtnSetTrigger").removeClass("disabled");
-            $("#VideoBtnSetTrigger").removeClass("disabled");
-        break;
-        case 1:
-            $("#PhotoBtnSetTrigger").removeClass("disabled");
-            $("#GIFBtnSetTrigger").addClass("disabled");
-            $("#VideoBtnSetTrigger").removeClass("disabled");
-        break;
-        case 2:
-            $("#PhotoBtnSetTrigger").removeClass("disabled");
-            $("#GIFBtnSetTrigger").removeClass("disabled");
-            $("#VideoBtnSetTrigger").addClass("disabled");
-        break;
-    }
     
 }
 

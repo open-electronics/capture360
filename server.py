@@ -66,6 +66,7 @@ def Stop():
 @app.route("/set_trigger_button", methods = ['POST'])
 def SetTriggerButton():
     global Config
+    OldMode = Config["Mode"]
     Config["Mode"] = int(request.form["mode"])
     Config["Resolution"] = request.form["resolution"]
     Config["Pics"] = int(request.form["pics"])
@@ -77,12 +78,17 @@ def SetTriggerButton():
     except:
         print("ERROR: Can't write configuration file.")
         sys.exit()
-    if(Config["Mode"] == 0):
-        return "Trigger button set to photo"
-    elif(Config["Mode"] == 1):
-        return "Trigger button set to GIF"
+    if(OldMode != Config["Mode"]):
+        Message = "Trigger button set to "
     else:
-        return "Trigger button set to video"
+        Message = "Trigger button settings saved in "
+    if(Config["Mode"] == 0):
+        Message += "photo"
+    elif(Config["Mode"] == 1):
+        Message += "GIF"
+    else:
+        Message += "video"
+    return Message
         
         
 #   Shooting procedure 
