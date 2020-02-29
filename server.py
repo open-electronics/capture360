@@ -16,7 +16,7 @@ import picamera
 
 app = Flask(__name__)
 
-global motor, Config, CurrentShoot, ShootSettings, ShootFinished, ShootStatus
+global motor, Config, CurrentShoot, ShootSettings, ShootFinished, ShootStatus, LastShootTime
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
@@ -28,6 +28,7 @@ ShootSettings = (None, None, None, None)
 ShootFinished = False
 ShootProgress = 0
 ShootStatus = ""
+LastShootTime = time.time()
 
 #   Main page
 @app.route("/")
@@ -94,7 +95,7 @@ def SetTriggerButton():
 #   Shooting procedure 
 @app.route("/shoot", methods = ['POST'])
 def Shoot():
-    global CurrentShoot, ShootSettings, ShootFinished, ShootProgress, ShootStatus
+    global Config, CurrentShoot, ShootSettings, ShootFinished, ShootProgress, ShootStatus, LastShootTime
     if CurrentShoot != None and ShootSettings[0] != None:
         Mode = int(CurrentShoot.split("_")[2])
         #   Photo or GIF
@@ -165,6 +166,7 @@ def Shoot():
         ShootSettings = (None, None, None, None)
         ShootFinished = True
         ShootStatus = ""
+        LastShootTime = time.time()
     return ""
 
 
@@ -266,8 +268,8 @@ def ZipDir(basedir, archivename):
                 
 #   Trigger button (physical)
 def TriggerButton(c):
-    global Config, CurrentShoot
-    if CurrentShoot == None:
+    global Config, CurrentShoot, LastShootTime
+    if CurrentShoot == None and time.time() - LastShootTime > 1:
         CreateShooting(Config["Mode"], Config["Resolution"], Config["Pics"], Config["FPS"], Config["Turns"])
         Shoot()
 
@@ -294,7 +296,7 @@ if __name__ == '__main__':
         sys.exit()
         
     GPIO.setup(int(Config["TriggerGPIO"]), GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(int(Config["TriggerGPIO"]), GPIO.RISING, callback=TriggerButton)
+    GPIO.add_event_detect(int(Config["TriggerGPIO"]), GPIO.RISING, callback=TriggerButton, bouncetime=1000)
 
     
     app.run(host = '0.0.0.0', port = 5000, threaded = True)
